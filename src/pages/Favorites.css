@@ -1,0 +1,15 @@
+.favorites-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 50px 32px;
+}
+
+.favorites-section h1 {
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+.empty-favorites {
+  color: #b3b3b3;
+  font-size: 16px;
+}
