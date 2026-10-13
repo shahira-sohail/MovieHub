@@ -1,4 +1,4 @@
-# Movie Discovery 🎬
+# Movie Discovery 🎬(Sprint08)
 
 A responsive movie discovery web application built with **React** and the **TMDB REST API**. The application allows users to explore popular movies, search for movies, browse results through infinite scrolling, and save their favorite movies locally.
 
