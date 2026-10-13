@@ -1,355 +1,150 @@
-# Movie Discovery 🎬(Sprint08)
+# Movie Discovery — Sprint 08
 
-A responsive movie discovery web application built with **React** and the **TMDB REST API**. The application allows users to explore popular movies, search for movies, browse results through infinite scrolling, and save their favorite movies locally.
+A responsive movie discovery web application built with React and Vite that allows users to explore movies, search for titles, view movie details, and manage their favorite movies. The project also integrates with **The Data Hub backend API** to support post-related functionality.
 
-## 🌐 Live URL
+## Live Demo
 
-`https://movie-hub-lemon-mu.vercel.app/
+- **Movie Discovery:** https://movie-hub-lemon-mu.vercel.app/
+- **Backend API:** https://the-data-hub-u2u2.onrender.com/
+- **Frontend Repository:** https://github.com/shahira-sohail/MovieHub
+- **Backend Repository:** https://github.com/shahira-sohail/The-Data-Hub
 
-## ✨ Features
+## Features
 
-* 🎬 Browse popular movies from TMDB
-* 🔎 Search movies using the TMDB Search API
-* ⏱️ Debounced search with a 500ms delay
-* ♾️ Infinite scrolling using the native `IntersectionObserver` API
-* ❤️ Add and remove movies from favorites
-* 💾 Store favorite movies using browser `localStorage`
-* 📄 Dedicated Favorites page
-* ⭐ Display movie ratings
-* 📅 Display movie release years
-* 🖼️ TMDB movie posters with fallback handling
-* 📱 Responsive design for desktop, tablet, and mobile
-* ⏳ Loading indicators
-* ⚠️ Basic API error handling
-* 🌙 Dark movie-focused UI
+### Movie Discovery
+- Browse popular movies using the TMDB API.
+- Search for movies with debounced search functionality.
+- View movie details.
+- Explore more movies through infinite scrolling.
+- Add and manage favorite movies.
+- Save favorites using browser local storage.
+- Responsive interface for different screen sizes.
 
----
+### Data Hub Backend Integration
+- Retrieve posts from The Data Hub REST API.
+- Create new posts through the connected backend.
+- Delete posts using the backend API.
+- Persist post data in MongoDB Atlas.
+- Configure the backend URL using a Vite environment variable.
 
-## 🛠️ Technologies Used
+## Tech Stack
 
-### Frontend
+**Frontend**
+- React
+- Vite
+- JavaScript
+- HTML5
+- CSS3
+- TMDB API
+- Browser local storage
 
-* React
-* JavaScript
-* HTML5
-* CSS3
-* React Router
+**Backend Integration**
+- Node.js
+- Express.js
+- MongoDB Atlas
+- Mongoose
+- REST API
+- Render
 
-### API
+**Deployment**
+- Vercel — frontend
+- Render — backend
 
-* TMDB REST API
+## Project Architecture
 
-### Development Tools
+The application combines two connected parts:
 
-* Vite
-* Git
-* GitHub
-* Vercel
+1. **Movie Discovery frontend:** React handles the user interface and communicates with TMDB for movie information.
+2. **The Data Hub backend:** An Express.js API handles post-related operations and stores data in MongoDB Atlas.
 
-### Browser Storage
+The frontend communicates with The Data Hub through HTTP requests. The backend URL is configurable through an environment variable, allowing the deployed application to use the hosted API instead of a local server.
 
-* LocalStorage
+## Getting Started
 
----
+### Prerequisites
+- Node.js and npm
+- Git
 
-## 📁 Project Structure
+### Installation
 
-```text
-movie-discovery/
-│
-├── public/
-│
-├── src/
-│   ├── components/
-│   │   ├── Hero.jsx
-│   │   ├── Hero.css
-│   │   ├── Loader.jsx
-│   │   ├── Loader.css
-│   │   ├── MovieCard.jsx
-│   │   ├── MovieCard.css
-│   │   ├── Navbar.jsx
-│   │   └── Navbar.css
-│   │
-│   ├── hooks/
-│   │   └── useDebounce.js
-│   │
-│   ├── pages/
-│   │   ├── Favorites.jsx
-│   │   └── Favorites.css
-│   │
-│   ├── services/
-│   │   └── tmdb.js
-│   │
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-│
-├── .env
-├── .gitignore
-├── index.html
-├── package.json
-├── package-lock.json
-├── README.md
-└── vite.config.js
-```
-
----
-
-## 🚀 Getting Started
-
-Follow these steps to run the project locally.
-
-### 1. Clone the repository
+Clone the frontend repository:
 
 ```bash
-git clone https://github.com/your-username/movie-discovery.git
-```
-
-### 2. Navigate to the project
-
-```bash
-cd movie-discovery
-```
-
-### 3. Install dependencies
-
-```bash
+git clone https://github.com/shahira-sohail/MovieHub.git
+cd MovieHub
 npm install
 ```
 
-### 4. Create environment variables
-
-Create a `.env` file in the project root:
+Create a `.env` file in the frontend root directory and configure the required variables:
 
 ```env
-VITE_TMDB_KEY=your_tmdb_api_key
+VITE_API_URL=https://the-data-hub-u2u2.onrender.com
+VITE_TMDB_API_KEY=your_tmdb_api_key
 ```
 
-Replace `your_tmdb_api_key` with your own TMDB API key.
+Use the TMDB environment variable name expected by your existing application. Do not commit API keys or other secrets to GitHub.
 
-> Never commit your `.env` file or expose your API key publicly.
-
-### 5. Start the development server
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-The application will be available at:
+Open the local URL shown in your terminal.
 
-```text
-http://localhost:5173
-```
+### Backend Setup
 
----
-
-## 🔑 TMDB API
-
-This project uses the **TMDB API** to retrieve movie information.
-
-The application uses:
-
-### Popular Movies
-
-```text
-GET /movie/popular
-```
-
-### Movie Search
-
-```text
-GET /search/movie
-```
-
-Movie poster images are constructed using TMDB's image base URL:
-
-```text
-https://image.tmdb.org/t/p/w500/
-```
-
----
-
-## 🔎 Search Functionality
-
-The search feature allows users to search for movies by title.
-
-To improve performance, the application uses a custom `useDebounce` hook.
-
-Instead of sending an API request for every character typed, the application waits for **500 milliseconds** after the user stops typing before making the search request.
-
-Flow:
-
-```text
-User types
-    ↓
-Search query changes
-    ↓
-500ms debounce
-    ↓
-TMDB Search API
-    ↓
-Search results displayed
-```
-
----
-
-## ♾️ Infinite Scroll
-
-The application implements infinite scrolling using the browser's native `IntersectionObserver` API.
-
-A small invisible element is placed below the movie grid.
-
-When the element becomes visible:
-
-```text
-User scrolls
-    ↓
-Bottom trigger becomes visible
-    ↓
-IntersectionObserver detects it
-    ↓
-Next TMDB page is requested
-    ↓
-New movies are appended
-```
-
-The existing movies remain on the page while additional results are loaded.
-
----
-
-## ❤️ Favorites
-
-Users can save movies by clicking the heart button on a movie card.
-
-Favorite movies are stored in the browser's `localStorage`.
-
-Example storage structure:
-
-```json
-[
-  {
-    "id": 12345,
-    "title": "Example Movie",
-    "poster_path": "/example.jpg"
-  }
-]
-```
-
-The Favorites page retrieves the saved movies from `localStorage` and displays them using the same movie card component.
-
-Users can also remove a movie from their favorites by clicking the heart button again.
-
----
-
-## 📱 Responsive Design
-
-The interface is designed to work across different screen sizes.
-
-The movie grid adapts based on the available screen width:
-
-* Desktop: multiple movie columns
-* Tablet: reduced number of columns
-* Mobile: two-column layout
-
-The search interface and navigation are also adjusted for smaller screens.
-
----
-
-## ⏳ Loading & Error Handling
-
-The application provides a loading indicator while movie data is being fetched.
-
-If an API request fails, an error message is displayed instead of leaving the interface blank.
-
----
-
-## 🔐 Environment Variables
-
-The TMDB API key is stored in an environment variable:
-
-```env
-VITE_TMDB_KEY=your_tmdb_api_key
-```
-
-The `.env` file is excluded from Git using `.gitignore`.
-
-For Vercel deployment, the same variable must be added through the project's **Environment Variables** settings.
-
----
-
-## 📦 Build for Production
-
-To create a production build:
+To run The Data Hub backend locally, clone its repository separately:
 
 ```bash
-npm run build
+git clone https://github.com/shahira-sohail/The-Data-Hub.git
+cd The-Data-Hub
+npm install
 ```
 
-To preview the production build locally:
+Configure the required MongoDB connection string in the backend's `.env` file, following the variable name used by the server.
+
+Start the backend:
 
 ```bash
-npm run preview
+npm start
 ```
 
----
+The backend uses port `5000` locally by default, unless configured otherwise.
 
-## ☁️ Deployment
+## API Integration
 
-The project can be deployed using **Vercel**.
+The frontend uses The Data Hub API for post-related functionality.
 
-Basic deployment flow:
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/posts` | Retrieve posts |
+| POST | `/posts` | Create a post |
+| DELETE | `/posts/:id` | Delete a post |
 
-```text
-GitHub Repository
-        ↓
-      Vercel
-        ↓
-   Build Project
-        ↓
-   Deploy Application
-```
+Base API URL: `https://the-data-hub-u2u2.onrender.com`
 
-Make sure the following environment variable is configured in Vercel:
+## Deployment
 
-```text
-VITE_TMDB_KEY
-```
+- The Movie Discovery frontend is deployed on Vercel.
+- The Data Hub backend is deployed on Render.
+- The frontend's `VITE_API_URL` environment variable points to the deployed backend.
+- Frontend environment-variable changes require a new Vercel deployment to take effect.
 
----
+## Learning Outcomes
 
-## 🎯 Project Goals
+- Building reusable React components.
+- Working with external APIs.
+- Implementing debounced search and infinite scrolling.
+- Managing application state and browser local storage.
+- Integrating a React frontend with a REST API.
+- Connecting backend services to MongoDB.
+- Configuring environment variables and deploying applications.
 
-The main goals of this project are:
-
-* Practice consuming REST APIs in React
-* Understand asynchronous data fetching
-* Implement search functionality
-* Understand debouncing
-* Implement infinite scrolling
-* Practice React state management
-* Work with browser `localStorage`
-* Implement client-side routing
-* Build a responsive frontend
-* Deploy a React application
-
----
-
-## 👩‍💻 Author
+## Author
 
 **Shahira Sohail**
 
-BCA Student
-
-GitHub:
-`https://github.com/shahira-sohail`
-
-LinkedIn:
-`https://linkedin.com/in/shahira-sohail-a106b0310`
-
----
-
-## 📄 License
-
-This project was created for learning and development purposes.
-
-Movie data and images are provided through the TMDB API.
+- GitHub: https://github.com/shahira-sohail
+- Movie Discovery Repository: https://github.com/shahira-sohail/MovieHub
+- The Data Hub Repository: https://github.com/shahira-sohail/The-Data-Hub
